@@ -81,48 +81,42 @@ void SSD1306_I2C_128x64::begin(uint8_t switchvcc)
 {
     Wire.begin();
 
-    // Setup reset pin direction (used by both SPI and I2C)
     pinMode(pin, OUTPUT);
     digitalWrite(pin, HIGH);
-    // VDD (3.3V) goes high at start, lets just chill for a ms
     delay(1);
-    // bring reset low
     digitalWrite(pin, LOW);
-    // wait 10ms
     delay(10);
-    // bring out of reset
     digitalWrite(pin, HIGH);
-    // turn on VCC (9V?)
 
-    sendCommand(SSD1306_DISPLAYOFF);                    // 0xAE
+    sendCommand(SSD1306_DISPLAYOFF);             // 0xAE
     sendCommand(SSD1306_SETLOWCOLUMN | 0x00);
     sendCommand(SSD1306_SETHIGHCOLUMN | 0x0);
     sendCommand(SSD1306_SETSTARTLINE | 0x0);
-    sendCommand(SSD1306_SETCONTRAST);                   // 0x81
+    sendCommand(SSD1306_SETCONTRAST);            // 0x81
     sendCommand(0x80);
     sendCommand(0xa1);
-    sendCommand(SSD1306_NORMALDISPLAY);                 // 0xA6
+    sendCommand(SSD1306_NORMALDISPLAY);          // 0xA6
 //    sendCommand(SSD1306_INVERTDISPLAY);
-    sendCommand(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
-    sendCommand(SSD1306_SETMULTIPLEX);                  // 0xA8
+    sendCommand(SSD1306_DISPLAYALLON_RESUME);    // 0xA4
+    sendCommand(SSD1306_SETMULTIPLEX);           // 0xA8
     sendCommand(0x3F);
-    sendCommand(SSD1306_SETDISPLAYOFFSET);
+    sendCommand(SSD1306_SETDISPLAYOFFSET);       // 0xD3
     sendCommand(0x0);
-    sendCommand(SSD1306_SETDISPLAYCLOCKDIV);
+    sendCommand(SSD1306_SETDISPLAYCLOCKDIV);     // 0xD5
     sendCommand(0x80);
-    sendCommand(SSD1306_SETPRECHARGE);
+    sendCommand(SSD1306_SETPRECHARGE);           // 0xD9
     sendCommand(0xF1);
-    sendCommand(SSD1306_SETCOMPINS);
+    sendCommand(SSD1306_SETCOMPINS);             // 0xDA
     sendCommand(0x12);
-    sendCommand(SSD1306_SETVCOMDETECT);
+    sendCommand(SSD1306_SETVCOMDETECT);          // 0xDB
     sendCommand(0x40);
-    sendCommand(SSD1306_MEMORYMODE);
+    sendCommand(SSD1306_MEMORYMODE);             // 0x20
     sendCommand(0x00);
     sendCommand(SSD1306_SEGREMAP | 0x1);
-    sendCommand(SSD1306_COMSCANDEC);
-    sendCommand(SSD1306_CHARGEPUMP);
+    sendCommand(SSD1306_COMSCANDEC);             // 0xC8
+    sendCommand(SSD1306_CHARGEPUMP);             // 0x8D
     sendCommand(0x14);
-    sendCommand(SSD1306_DISPLAYON);
+    sendCommand(SSD1306_DISPLAYON);              // 0xAF
 }
 
 void SSD1306_I2C_128x64::sendCommand(uint8_t cmd)
@@ -156,7 +150,5 @@ void SSD1306_I2C_128x64::display()
         i--;
         Wire.endTransmission();
     }
-
-
 }
 
